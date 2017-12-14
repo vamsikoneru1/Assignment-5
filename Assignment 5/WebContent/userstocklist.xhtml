@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+ 
+ 
+    <h:head>
+        <title>User Account</title>
+    </h:head>
+    <h:body >
+
+	   
+	   <h:form id="loginForm" align="right" prependId="false">
+	   
+	   <h:outputText value=""></h:outputText>
+	   
+	   			<h:commandButton id="back"  value="Back"    action= "sucess"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
+	   
+		
+				<h:commandButton id="logout"  value="logout"    action= "#{login.logout}"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
+				<br/><br/>
+		</h:form>
+		<h1 align="left">  </h1> 
+		<br>
+		</br>
+	
+				
+				
+				
+				 Welcome #{login.firstname} , 
+				 	 <h:outputText value="#{login.accountbalance}" >
+					
+				</h:outputText>
+				
+				<h:dataTable value="#{login.stocks}" var= "stoc" styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > Purchase id</f:facet> 				
+               			
+              	 #{stoc.pid}
+            	</h:column>	
+            	
+				<h:column>    				
+              
+    				<f:facet name="header" > Amount</f:facet> 				
+               			
+              	 #{stoc.amt}
+            	</h:column>	
+            	
+            	<h:column>    				
+              
+    				<f:facet name="header" > Price</f:facet>    				
+               			
+              	 #{stoc.price}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > Quantity</f:facet>    				
+               			
+              	 #{stoc.qty}
+            	</h:column>	
+            
+            	<h:column>    				
+              
+    				<f:facet name="header" > Symbol</f:facet> 
+              	 #{stoc.symbol}
+            	</h:column>	
+            		
+            	
+            	
+            		
+				</h:dataTable>	
+
+				<div class="form-group row">
+  				<label for="example-text-input" class="col-2 col-form-label">Please enter the manager id</label>
+ 				
+				<h:inputText  value="#{login.email}"  requiredMessage="Required " styleClass="form-control" class="form-control mb-2 mr-sm-2 mb-sm-0"></h:inputText>
+				<br/><br/>
+						<h:commandButton id="requet"  value="request admin"    action= "login"  align="center" style="float:right;" ></h:commandButton>
+				
+				</div>
+
+			
+		
+
+    </h:body>
+</html>

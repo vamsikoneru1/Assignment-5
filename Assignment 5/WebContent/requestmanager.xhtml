@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+ 
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+ 
+ 
+    <h:head>
+        <title>User Account</title>
+    </h:head>
+    <h:body >
+
+	   
+	   <h:form id="loginForm" align="right" prependId="false">
+	   
+	   <h:outputText value=""></h:outputText>
+	   
+	   			<h:commandButton id="back"  value="Back"    action= "sucess"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
+	   
+		
+				<h:commandButton id="logout"  value="logout"    action= "#{login.logout}"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
+				<br/><br/>
+		</h:form>
+		<h1 align="left">  </h1> 
+		<br>
+		</br>
+	
+				
+				 Welcome #{login.username} , your ID is #{login.accountbalance}
+				 
+			
+				
+				<h:dataTable value="#{login.reqmanager}" var= "rm" >
+    			<h:column>    				
+              
+    				<f:facet name="header" > id</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${rm.managerid}"></h:outputText>
+            	</h:column>		
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > first name</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${rm.firstname}"></h:outputText>
+            	</h:column>		
+            	
+            	<h:column>    				
+              
+    				<f:facet name="header" > email</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${rm.email}"></h:outputText>
+            	</h:column>		
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > fee</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${rm.fee}"></h:outputText>
+            	</h:column>		
+				</h:dataTable>	
+				
+				
+				
+  				Please enter amount 
+ 				
+ 				<h:form>
+				<h:inputText  value="#{login.qty}"  requiredMessage="Required " styleClass="form-control" class="form-control mb-2 mr-sm-2 mb-sm-0"></h:inputText>
+				<br/><br/>
+			<h:commandButton id="requet"  value="Request Manager"    action= "#{login.requestmanager}"  align="center" class="btn btn-success" ></h:commandButton>
+				
+				</h:form>
+				
+
+			
+		
+
+    </h:body>
+</html>
