@@ -2,11 +2,13 @@
 <html lang="en"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns:f="http://java.sun.com/jsf/core">
+ 
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
  
-
+ 
     <h:head>
         <title>User Account</title>
     </h:head>
@@ -16,60 +18,86 @@
 	   <h:form id="loginForm" align="right" prependId="false">
 	   
 	   <h:outputText value=""></h:outputText>
+	   
+	   			<h:commandButton id="back"  value="Back"    action= "sucess"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
+	   
 		
 				<h:commandButton id="logout"  value="logout"    action= "#{login.logout}"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
-				
-				<h:commandButton id="back"  value="back"    action= "sucess"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
-	   
+				<br/><br/>
 		</h:form>
-		<h1 align="left">  welcome #{login.firstname} , your details are as below </h1> 
+		<h1 align="left">  </h1> 
 		<br>
 		</br>
-		<h:dataTable value="#{login.details}" var= "det" styleClass="order-table"
+	
+				
+				 Welcome #{login.username} , 
+				 
+			
+				<h1>
+				Purchased stocks
+				</h1>
+				
+				
+				
+				<h:dataTable value="#{login.stocks}" var= "stoc" styleClass="order-table" border="1"
     			headerClass="order-table-header"
     			rowClasses="order-table-odd-row,order-table-even-row">
 				
 				<h:column>    				
               
-    				<f:facet name="header" > ID</f:facet> 				
+    				<f:facet name="header" > Purchase id</f:facet> 				
                			
-              	 #{det.userid}
+              	 #{stoc.pid}
             	</h:column>	
             	
 				<h:column>    				
               
-    				<f:facet name="header" > Name</f:facet> 				
+    				<f:facet name="header" > Amount</f:facet> 				
                			
-              	 #{det.firstname}
+              	 #{stoc.amt}
             	</h:column>	
             	
             	<h:column>    				
               
-    				<f:facet name="header" > email</f:facet>    				
+    				<f:facet name="header" > Price</f:facet>    				
                			
-              	 #{det.email}
+              	 #{stoc.price}
             	</h:column>	
             	<h:column>    				
               
-    				<f:facet name="header" > Username</f:facet>    				
+    				<f:facet name="header" > Quantity</f:facet>    				
                			
-              	 #{det.username}
+              	 #{stoc.qty}
             	</h:column>	
             
             	<h:column>    				
               
-    				<f:facet name="header" > account balance </f:facet> 
-              	 #{det.accountbalance}
-            	</h:column>	
-            	<h:column>    
-            					
-              
-    				<f:facet name="header" > manager Id </f:facet> 
-              	 #{det.managerid}
+    				<f:facet name="header" > Symbol</f:facet> 
+              	 #{stoc.symbol}
             	</h:column>	
             		
             	
-           </h:dataTable>	
+            	
+            		
+				</h:dataTable>	
+
+			
+
+				
+				
+				
+  				Please enter the purchase id 
+ 				
+ 				<h:form>
+				<h:inputText  value="#{login.pid}"  requiredMessage="Required " styleClass="form-control" class="form-control mb-2 mr-sm-2 mb-sm-0"></h:inputText>
+				<br/><br/>
+			<h:commandButton id="request"  value="Request Manager"    action= "#{login.managersell}"  align="center" class="btn btn-success" ></h:commandButton>
+				
+				</h:form>
+				
+
+			
 		
+
     </h:body>
 </html>

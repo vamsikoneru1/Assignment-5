@@ -19,7 +19,7 @@
 	   			<h:commandButton id="update"  value="update profile"    action= "managerupdate"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
 	   
 		
-				<h:commandButton id="logout"  value="logout"    action= "#{login.logout}"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
+				<h:commandButton id="logout"  value="logout"    action= "#{regManager.logout}"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
 				<br/><br/>
 		</h:form>
 		<h1 align="left">  Welcome #{regManager.username} </h1> 
@@ -41,12 +41,12 @@
 				
 			
 				<h:outputText value="View account balance"></h:outputText>
-				<h:commandButton align="center" value="My Account Balance"  action="loginmanager" class="btn btn-info" ></h:commandButton>
+				<h:commandButton align="center" value="My Account Balance"  action="managerhistory" class="btn btn-info" ></h:commandButton>
 				<br/><br/>
 				
 				
 				<h:outputText value="Sell Stocks"></h:outputText>
-				<h:commandButton align="center" value="sell stocks"  action="loginmanager" class="btn btn-info" ></h:commandButton>
+				<h:commandButton align="center" value="sell stocks"  action="managersell" class="btn btn-info" ></h:commandButton>
 				<br/><br/>
 				
 				<h:outputText value="buy Stocks"></h:outputText>

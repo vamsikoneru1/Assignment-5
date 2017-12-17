@@ -52,7 +52,7 @@
                             Price: <h:inputText binding="#{purchasePrice}" id="price" styleClass="form-control purchasePrice" value="#{stockApiBean.purchasePrice}" required="true"/><br />
                             Quantity: <h:inputText binding="#{qty}" id="qty" styleClass="form-control qty" value="#{stockApiBean.qty}" required="true" onkeyup="calculateAmount()"/><br />
                             Amount: <h:inputText binding="#{amt}" id="amt" styleClass="form-control amt" value="#{stockApiBean.amt}" required="true"/><br />
-                            <h:commandButton styleClass="btn btn-success btn-login-submit" value="Purchase" action="#{stockApiBean.createDbRecordrequest(purchaseSymbol.value, purchasePrice.value, qty.value, amt.value)}"/>
+                            <h:commandButton styleClass="btn btn-success btn-login-submit" value="Purchase" action="#{stockApiBean.createDbRecord(purchaseSymbol.value, purchasePrice.value, qty.value, amt.value)}"/>
                         </h:form>
                     </div>
                 </div>

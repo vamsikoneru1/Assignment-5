@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
  
@@ -25,25 +26,57 @@
         </script>
     </h:head>
     <body>
+      <h:form>
+           	<h:commandButton id="back"  value="Back"    action= "sucess"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
+           </h:form>
+    					<h1>
+                            Welcome <h:outputText value="#{sessionScope.username}" />
+                        </h1>
+    
+				<h:dataTable value="#{login.stocks}" var= "stoc" styleClass="order-table" border="1"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > Purchase id</f:facet> 				
+               			
+              	 #{stoc.pid}
+            	</h:column>	
+            	
+				<h:column>    				
+              
+    				<f:facet name="header" > Amount</f:facet> 				
+               			
+              	 #{stoc.amt}
+            	</h:column>	
+            	
+            	<h:column>    				
+              
+    				<f:facet name="header" > Price</f:facet>    				
+               			
+              	 #{stoc.price}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > Quantity</f:facet>    				
+               			
+              	 #{stoc.qty}
+            	</h:column>	
+            
+            	<h:column>    				
+              
+    				<f:facet name="header" > Symbol</f:facet> 
+              	 #{stoc.symbol}
+            	</h:column>	
+            		
+            	
+           </h:dataTable>	
     
         <!-- Add your site or application content here -->
         <div class="wrapper">
 
-            <div class="container bootstrap snippet">
-                <div class="row">
-                    <div class="col-sm-10">
-                     	
-                        <h1>
-                            Welcome <h:outputText value="#{sessionScope.username}" />
-                        </h1>
-                        <span style="float:right;"><h:link value="Logout" outcome="index" style="text-align: right;"/></span>
-                    </div>
-                    <div class="col-sm-2">
-                        <a href="#" class="pull-right">
-                            <img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></img>
-                        </a>
-                    </div>
-                </div>
+         
                 
                 <div class="row">
                     <!--left col-->
@@ -57,12 +90,12 @@
                             Price: <h:inputText binding="#{purchasePrice}" id="price" styleClass="form-control purchasePrice" value="#{stockApiBean.purchasePrice}" required="true"/><br />
                             Quantity: <h:inputText binding="#{qty}" id="qty" styleClass="form-control qty" value="#{stockApiBean.qty}" required="true" onkeyup="calculateAmount()"/><br />
                             Amount: <h:inputText binding="#{amt}" id="amt" styleClass="form-control amt" value="#{stockApiBean.amt}" required="true"/><br />
-                            userid: <h:inputText value= "#{stockApiBean.useridentity}"/><br/>
-                            <h:commandButton styleClass="btn btn-success btn-login-submit" value="Purchase" action="#{stockApiBean.createDbRecordmanager(purchaseSymbol.value, purchasePrice.value, qty.value, amt.value)}"/>
+                            Stock id: <h:inputText value= "#{stockApiBean.stockid}"/><br/>
+                            <h:commandButton styleClass="btn btn-success btn-login-submit" value="Sell" action="#{stockApiBean.createusersell(purchaseSymbol.value, purchasePrice.value, qty.value, amt.value)}"/>
                         </h:form>
                     </div>
                 </div>
             </div>
-        </div>
+       
     </body>
 </html>

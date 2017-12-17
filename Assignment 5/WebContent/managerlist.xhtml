@@ -32,11 +32,49 @@
 				
 				
 				
-				 Welcome #{login.username} , your ID is #{login.accountbalance}
+				 Welcome Below is the details of manager you were assigned
+				 
+				 <h:dataTable value="#{login.reqmanager}" var="r">
+				 <h:column>    				
+              
+    				<f:facet name="header" > id</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${r.managerid}"></h:outputText>
+            	</h:column>		
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > first name</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${r.firstname}"></h:outputText>
+            	</h:column>		
+            	
+            	<h:column>    				
+              
+    				<f:facet name="header" > email</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${r.email}"></h:outputText>
+            	</h:column>		
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > fee</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${r.fee}"></h:outputText>
+            	</h:column>		
+            	</h:dataTable>
 				 
 			
 				
-				<h:dataTable value="#{regManager.mang}" var= "rm" >
+				<h:dataTable value="#{regManager.mang}" var= "r" >
     			
 				
 				<h:column>    				
@@ -45,7 +83,7 @@
     				
     			
                  	
-              	<h:outputText value="${rm.firstname}"></h:outputText>
+              	<h:outputText value="${r.firstname}"></h:outputText>
             	</h:column>		
             	
             	
@@ -55,7 +93,7 @@
     				
     			
                  	
-              	<h:outputText value="${rm.managerid}"></h:outputText>
+              	<h:outputText value="${r.managerid}"></h:outputText>
             	</h:column>		
 				</h:dataTable>	
 

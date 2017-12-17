@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+ 
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+ 
+ 
+    <h:head>
+        <title>manager Account</title>
+    </h:head>
+    <h:body >
+
+	   
+	   <h:form id="loginForm" align="right" prependId="false">
+	   
+	   <h:outputText value=""></h:outputText>
+	   
+	   			<h:commandButton id="back"  value="Back"    action= "Manageraccount"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
+	   
+		
+				<h:commandButton id="logout"  value="logout"    action= "#{regManager.logout}"  align="center" style="float:right;" class="btn btn-success" ></h:commandButton>
+				<br/><br/>
+		</h:form>
+		<h1 align="left">  				Your profile	</h1> 
+		<br>
+		</br>
+	
+				
+				
+				 
+			
+				
+				
+				
+				
+				<h:dataTable value="#{regManager.managerprofile}" var= "ma" styleClass="order-table" border="1"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > Manager id</f:facet> 				
+               			
+              	 #{ma.managerid}
+            	</h:column>	
+            	
+            	<h:column>    				
+              
+    				<f:facet name="header" > Name</f:facet> 				
+               			
+              	 #{ma.firstname}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > Username</f:facet> 				
+               			
+              	 #{ma.username}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > email</f:facet> 				
+               			
+              	 #{ma.email}
+            	</h:column>
+            	<h:column>    				
+              
+    				<f:facet name="header" > role</f:facet> 				
+               			
+              	 #{ma.role}
+            	</h:column>		
+            	<h:column>    				
+              
+    				<f:facet name="header" > fee</f:facet> 				
+               			
+              	 #{ma.fee}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > Account balance</f:facet> 				
+               			
+              	 #{ma.accountbalance}
+            	</h:column>	
+            	
+            	
+            		
+				</h:dataTable>	
+
+				<h1 align="left"> Sold history</h1> 
+					<br>
+					</br>
+					<h:dataTable value="#{regManager.managersellhistory}" var= "ma" styleClass="order-table" border="1"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > Stock id</f:facet> 				
+               			
+              	 #{ma.pid}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > user id</f:facet> 				
+               			
+              	 #{ma.useridentity}
+            	</h:column>	
+            	<h:column>    
+            					
+              
+    				<f:facet name="header" > Amount</f:facet> 				
+               			
+              	 #{ma.amt}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > price</f:facet> 				
+               			
+              	 #{ma.price}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > Quantity</f:facet> 				
+               			
+              	 #{ma.qty}
+            	</h:column>
+            	<h:column>    				
+              
+    				<f:facet name="header" > Symbol</f:facet> 				
+               			
+              	 #{ma.symbol}
+            	</h:column>		
+            	
+            	
+            	
+            	
+            		
+				</h:dataTable>	
+				
+				
+		<h1 align="left"> Purchased history</h1> 
+					<br>
+					</br>
+					<h:dataTable value="#{regManager.managersellhistory}" var= "ma" styleClass="order-table" border="1"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > Stock id</f:facet> 				
+               			
+              	 #{ma.pid}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > user id</f:facet> 				
+               			
+              	 #{ma.useridentity}
+            	</h:column>	
+            	<h:column>    
+            					
+              
+    				<f:facet name="header" > Amount</f:facet> 				
+               			
+              	 #{ma.amt}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > price</f:facet> 				
+               			
+              	 #{ma.price}
+            	</h:column>	
+            	<h:column>    				
+              
+    				<f:facet name="header" > Quantity</f:facet> 				
+               			
+              	 #{ma.qty}
+            	</h:column>
+            	<h:column>    				
+              
+    				<f:facet name="header" > Symbol</f:facet> 				
+               			
+              	 #{ma.symbol}
+            	</h:column>		
+            	
+            	
+            	
+            	
+            		
+				</h:dataTable>	
+			
+		
+
+    </h:body>
+</html>

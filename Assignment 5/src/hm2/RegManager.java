@@ -1,6 +1,7 @@
 package hm2;
+import hm2.*;
 import java.util.*;
-
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,21 +27,26 @@ public class RegManager {
 	List<RegManager> mang=new ArrayList<RegManager>();
 	List<RegManager> mang1=new ArrayList<RegManager>();
 	List<Login> login= new ArrayList<Login>();
-
+	List<StockApiBean> managersell= new ArrayList<StockApiBean>();
+	List<StockApiBean> managersellhistory= new ArrayList<StockApiBean>();
+	List<StockApiBean> managerpurchasehistory= new ArrayList<StockApiBean>();
+	List<RegManager> managerprofile= new ArrayList<RegManager>();
 	//List<RegManager> manger=new ArrayList<RegManager>();
 	
 
 	
 
 	Integer managerid;
+	
+
 	Integer mid;
 	
 
-	Integer accountbalance;
-	public Integer getAccountbalance() {
+	Double accountbalance;
+	public Double getAccountbalance() {
 		return accountbalance;
 	}
-	public void setAccountbalance(Integer accountbalance) {
+	public void setAccountbalance(Double accountbalance) {
 		this.accountbalance = accountbalance;
 	}
 
@@ -97,7 +103,7 @@ public class RegManager {
 	
 	
 	
-	public String login() {
+	public String log() {
 		Connection con=null;
 		String res="";
 		if(this.username.equals(null)&& this.password.equals(null))
@@ -121,7 +127,7 @@ public class RegManager {
 			
 			con = ds.getConnection();
 			
-			String sql = "SELECT name,username,password,id from manager where username= ?";
+			String sql = "SELECT name,username,password,id,approved from manager where username= ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, this.username);
 			
@@ -130,13 +136,16 @@ public class RegManager {
 			ResultSet rs = st.executeQuery();
 			String un="";
 			String pass="";
+			Integer app=0;
 			
 			while (rs.next()) {
 				un=rs.getString("username");
 				pass=rs.getString("password");
+				app=rs.getInt("approved");
 				mid=rs.getInt("id");
 				this.firstname=rs.getString("name");
-				
+				if(app==1)
+				{
 				if(pass.equals(password)&& un.equals(username))
 				{
 					res="Manageraccount";
@@ -152,6 +161,13 @@ public class RegManager {
 					FacesContext.getCurrentInstance().addMessage(null, fm);
 					//res="failure";
 					
+				}
+				}
+				else
+				{
+					FacesMessage fm= new FacesMessage("Manager did not approve yet", "ERROR MESSAGE");
+					fm.setSeverity(FacesMessage.SEVERITY_ERROR);
+					FacesContext.getCurrentInstance().addMessage(null, fm);
 				}
 				
 				
@@ -193,7 +209,7 @@ public class RegManager {
 			con = ds.getConnection();
 
 			
-			String sql = "INSERT INTO manager "+"( name,username, email,id, password,role,fee,accountbalance,userid,approved) values (?,?,?,NULL,?,?,?,NULL,0,0)";
+			String sql = "INSERT INTO manager "+"( name,username, email,id, password,role,fee,accountbalance,userid,approved) values (?,?,?,NULL,?,?,?,NULL,NULL,0)";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, firstname);
 			st.setString(2 ,username);
@@ -510,13 +526,247 @@ public List<Login> getLogin() throws SQLException {
 	}
 		return login;
 		
+}
+
+
+public List<StockApiBean> getManagersell() throws SQLException {
+	managersell.clear();
 	
+	Connection con = null;
+	com.mysql.jdbc.jdbc2.optional.MysqlDataSource ds = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
+	ds.setServerName(System.getenv("ICSI518_SERVER"));
+	ds.setPortNumber(Integer.parseInt(System.getenv("ICSI518_PORT")));
+	ds.setDatabaseName(System.getenv("ICSI518_DB").toString());
+	ds.setUser(System.getenv("ICSI518_USER").toString());
+	ds.setPassword(System.getenv("ICSI518_PASSWORD").toString());
+	con = ds.getConnection();
+	
+	
+	String sql = "select * from purchase where managerid ='" + mid + "' and pors=0 and sell=1";
+	PreparedStatement st = con.prepareStatement(sql);
+	
+	
+	
+	
+	managersell.clear();
+	ResultSet rs=st.executeQuery(sql);
+	
+	while(rs.next())
+	{
+		
+		StockApiBean stoc=new StockApiBean();
+		stoc.setPid(rs.getInt("id"));
+		stoc.setUseridentity(rs.getInt("uid"));
+		
+		stoc.setAmt(rs.getDouble("amt"));
+		stoc.setPrice(rs.getDouble("price"));
+		stoc.setQty(rs.getInt("qty"));
+		stoc.setSymbol(rs.getString("stock_symbol"));
+		
+		managersell.add(stoc);
+		
+		
+		System.out.println(rs.getDouble("amt")+" " +rs.getDouble("price")+""+rs.getString("id"));
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	con.close();
+	st.close();
+	
+	return managersell;
 
 }
-public String logout() {
-	HttpSession hs=Util.getSession();
-	hs.invalidate();
-	return "front";
+
+
+
+
+public List<StockApiBean> getManagersellhistory() throws SQLException {
+	
+	managersellhistory.clear();
+	Connection con = null;
+	com.mysql.jdbc.jdbc2.optional.MysqlDataSource ds = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
+	ds.setServerName(System.getenv("ICSI518_SERVER"));
+	ds.setPortNumber(Integer.parseInt(System.getenv("ICSI518_PORT")));
+	ds.setDatabaseName(System.getenv("ICSI518_DB").toString());
+	ds.setUser(System.getenv("ICSI518_USER").toString());
+	ds.setPassword(System.getenv("ICSI518_PASSWORD").toString());
+	
+	
+	con = ds.getConnection();
+
+
+
+
+
+//con = ds.getConnection();
+
+
+String sql = "select * from purchase where managerid='"+ mid +"' and pors=1 and sell=1 ";
+
+//PreparedStatement st = con.prepareStatement(sql);
+Statement stm=null;
+stm=(Statement) con.createStatement();
+
+
+
+
+ResultSet rs=stm.executeQuery(sql);
+while(rs.next())
+{
+	StockApiBean stoc=new StockApiBean();
+	stoc.setPid(rs.getInt("id"));
+	stoc.setAmt(rs.getDouble("amt"));
+	stoc.setPrice(rs.getDouble("price"));
+	stoc.setQty(rs.getInt("qty"));
+	stoc.setSymbol(rs.getString("stock_symbol"));
+	stoc.setUseridentity(rs.getInt("uid"));
+	managersellhistory.add(stoc);
+	
+	
+	
+	
+	
+	
+}
+con.close();
+stm.close();
+
+
+	
+	return managersellhistory;
+}
+public List<StockApiBean> getManagerpurchasehistory() throws SQLException {
+	
+	managerpurchasehistory.clear();
+	Connection con = null;
+	com.mysql.jdbc.jdbc2.optional.MysqlDataSource ds = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
+	ds.setServerName(System.getenv("ICSI518_SERVER"));
+	ds.setPortNumber(Integer.parseInt(System.getenv("ICSI518_PORT")));
+	ds.setDatabaseName(System.getenv("ICSI518_DB").toString());
+	ds.setUser(System.getenv("ICSI518_USER").toString());
+	ds.setPassword(System.getenv("ICSI518_PASSWORD").toString());
+	
+	
+	con = ds.getConnection();
+
+
+
+
+
+//con = ds.getConnection();
+
+
+String sql = "select * from purchase where managerid='"+ mid +"' and pors=1 and sell=0 ";
+
+//PreparedStatement st = con.prepareStatement(sql);
+Statement stm=null;
+stm=(Statement) con.createStatement();
+
+
+
+
+ResultSet rs=stm.executeQuery(sql);
+while(rs.next())
+{
+	StockApiBean stoc=new StockApiBean();
+	stoc.setPid(rs.getInt("id"));
+	stoc.setAmt(rs.getDouble("amt"));
+	stoc.setPrice(rs.getDouble("price"));
+	stoc.setQty(rs.getInt("qty"));
+	stoc.setSymbol(rs.getString("stock_symbol"));
+	stoc.setUseridentity(rs.getInt("uid"));
+	managerpurchasehistory.add(stoc);
+	
+	
+	
+	
+	
+	
+}
+con.close();
+stm.close();
+
+
+	return managerpurchasehistory;
+}
+public List<RegManager> getManagerprofile() throws SQLException {
+		
+	managerprofile.clear();
+	Connection con = null;
+	com.mysql.jdbc.jdbc2.optional.MysqlDataSource ds = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
+	ds.setServerName(System.getenv("ICSI518_SERVER"));
+	ds.setPortNumber(Integer.parseInt(System.getenv("ICSI518_PORT")));
+	ds.setDatabaseName(System.getenv("ICSI518_DB").toString());
+	ds.setUser(System.getenv("ICSI518_USER").toString());
+	ds.setPassword(System.getenv("ICSI518_PASSWORD").toString());
+	
+	
+	con = ds.getConnection();
+
+
+
+
+
+//con = ds.getConnection();
+
+
+String sql = "select * from manager where id='"+ mid +"' ";
+
+//PreparedStatement st = con.prepareStatement(sql);
+Statement stm=null;
+stm=(Statement) con.createStatement();
+
+
+
+
+ResultSet rs=stm.executeQuery(sql);
+while(rs.next())
+{
+	RegManager rm=new RegManager();
+	rm.setFirstname(rs.getString("name"));
+	rm.setUsername(rs.getString("username"));
+	rm.setEmail(rs.getString("email"));
+	rm.setManagerid(rs.getInt("id"));
+	rm.setPassword(rs.getString("password"));
+	rm.setRole(rs.getString("role"));
+	rm.setFee(rs.getInt("fee"));
+	rm.setAccountbalance(rs.getDouble("accountbalance"));
+	//System.out.println(rs.getInt("id")+" " +rs.getString("name"));
+	managerprofile.add(rm);
+	//System.out.println("hi");
+	
+	
+	
+	
+	
+	
+	
+}
+con.close();
+stm.close();
+
+
+	
+	return managerprofile;
+}
+public void logout() throws IOException {
+	
+	FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+    FacesContext.getCurrentInstance().getExternalContext().redirect("front.xhtml");
+//	HttpSession hs=Util.getSession();
+//	
+//	
+//	hs.invalidate();
+//	return "front";
 }
 
 }

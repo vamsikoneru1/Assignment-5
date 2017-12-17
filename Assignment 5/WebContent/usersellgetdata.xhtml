@@ -31,7 +31,8 @@
 				
 				
 				 Welcome #{login.firstname} , 
-				<h1>
+				 	
+				 	<h1>
 				Sold Stocks
 				</h1> 
 				
@@ -49,7 +50,7 @@
               
     				<f:facet name="header" > User id</f:facet> 				
                			
-              	 #{s.useridentity}
+              	 #{s.pid}
             	</h:column>	
 				<h:column>    				
               
@@ -88,10 +89,8 @@
 				</h:dataTable>	
 				<h1>
 				Purchased stocks
-				</h1>
-				
-				
-				
+				</h1>	
+				 	
 				<h:dataTable value="#{login.stocks}" var= "stoc" styleClass="order-table" border="1"
     			headerClass="order-table-header"
     			rowClasses="order-table-odd-row,order-table-even-row">
@@ -130,17 +129,45 @@
             	</h:column>	
             		
             	
+           </h:dataTable>	 	
             	
-            		
-				</h:dataTable>	
+        <div class="container">
+            
 
-				<h:form>
-						
-				<h:commandButton align="center" value="sell stocks"  action="usersellgetdata" class="btn btn-info" ></h:commandButton>
-				</h:form>
+            <div class="well">
+                <legend>Search Data</legend>
 
+                <div class="row">
+
+                    <h:form>
+                        <label for="sel1">Stock: </label>
+                        <h:selectOneMenu id="symbol" value="#{stockApiBean.selectedSymbol}">
+                            <f:selectItems value="#{stockApiBean.availableSymbols}" />
+                        </h:selectOneMenu>
+
+                        <label for="sel1">Interval: </label>
+                        <h:selectOneMenu id="interval" value="#{stockApiBean.selectedInterval}">
+                            <f:selectItems value="#{stockApiBean.availableIntervals}" />
+                        </h:selectOneMenu>
+                        <br />
+                        <h:commandButton value="Get Data" action="#{stockApiBean.timeseriesusersell}" styleClass="btn btn-success" />
+                    </h:form>
+                </div>
+
+                <h:panelGroup rendered="#{not empty stockApiBean.table1Markup}">
+                    <h:outputText value="#{stockApiBean.table1Markup}" escape="false" styleClass="preformatted" />
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{not empty stockApiBean.table2Markup}">
+                    <h:outputText value="#{stockApiBean.table2Markup}" escape="false" styleClass="preformatted" />
+                </h:panelGroup>
+            </div>
+        </div>
+   
+				
+					
 			
 		
 
-    </h:body>
+   			 </h:body>
 </html>

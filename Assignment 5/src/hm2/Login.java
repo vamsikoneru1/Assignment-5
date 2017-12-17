@@ -1,4 +1,5 @@
 package hm2;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -32,18 +33,29 @@ import javax.faces.bean.ManagedBean;
 public class Login {
 	
 	List<StockApiBean> stock= new ArrayList<StockApiBean>();
+	List<StockApiBean> soldstock= new ArrayList<StockApiBean>();
 	List<StockApiBean> stockrequest= new ArrayList<StockApiBean>();
 	List<RegManager> reqmanager = new ArrayList<RegManager>();
-
+	List<Login> details =new ArrayList<Login>();
+	
 	
 
 
 	Integer userid;
-	Integer accountbalance;
+	Double accountbalance;
 	Integer managerid;
 	int uid;
 	Integer pid;
 	Integer qty;
+
+	private String password;
+	private String email;
+	private String firstname; 
+	private String username; 
+	
+	RegManager man;
+	
+
 
 	public Integer getQty() {
 		return qty;
@@ -81,24 +93,18 @@ public class Login {
 
 
 
-	public Integer getAccountbalance() {
+	public Double getAccountbalance() {
 		return accountbalance;
 	}
 
 
 
-	public void setAccountbalance(Integer accountbalance) {
+	public void setAccountbalance(Double accountbalance) {
 		this.accountbalance = accountbalance;
 	}
 
 
 
-	private String password;
-	private String email;
-	private String firstname; 
-	private String username; 
-	
-	RegManager man;
 	
 	
 
@@ -242,6 +248,62 @@ public class Login {
 		}
 	}
 
+	public List<Login> getDetails() throws SQLException {
+		details.clear();
+		
+		Connection con = null;
+		com.mysql.jdbc.jdbc2.optional.MysqlDataSource ds = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
+		ds.setServerName(System.getenv("ICSI518_SERVER"));
+		ds.setPortNumber(Integer.parseInt(System.getenv("ICSI518_PORT")));
+		ds.setDatabaseName(System.getenv("ICSI518_DB").toString());
+		ds.setUser(System.getenv("ICSI518_USER").toString());
+		ds.setPassword(System.getenv("ICSI518_PASSWORD").toString());
+		con = ds.getConnection();
+		Integer uid = (Integer) ( FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap().get("userid"));
+		
+		String sql = "select * from reg where userid ='" + uid + "'";
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		
+		
+		
+		details.clear();
+		ResultSet rs=st.executeQuery(sql);
+		
+		while(rs.next())
+		{
+			
+			Login det=new Login();
+			det.setFirstname(rs.getString("name"));
+			det.setUsername(rs.getString("username"));
+			det.setUserid(uid);
+			det.setAccountbalance(rs.getDouble("accountbalance"));
+			det.setEmail(rs.getString("email"));
+			det.setManagerid(rs.getInt("managerid"));
+			
+			details.add(det);
+			
+			
+			//System.out.println(rs.getDouble("amt")+" " +rs.getDouble("price")+""+rs.getString("id"));
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+		
+		
+		
+		con.close();
+		st.close();
+		return details;
+		
+	}
 
 
 	//}
@@ -488,14 +550,18 @@ public class Login {
 			con = ds.getConnection();
 			
 				String sql = "update  reg "+" set managerid='" + managerid + "'  where userid='" + uid + "'";
+				String sql2 = "update  manager "+" set userid=NULL  where userid='" + uid + "'";
 			String sql1 = "update  manager "+" set userid='" + uid + "'  where id='" + managerid + "'";
 			//String sql2="update manager set userid=Null where id<> '" + uid + "'";
 			//String sql2 = "update  manager "+" set userid='" + 0 + "'  where id <>'" + managerid + "'";
 			PreparedStatement st = con.prepareStatement(sql);
 			PreparedStatement stx = con.prepareStatement(sql1);
+			PreparedStatement sty = con.prepareStatement(sql2);
+
 			
 			//PreparedStatement sty = con.prepareStatement(sql2);
 			st.executeUpdate();
+			sty.executeUpdate();
 			stx.executeUpdate();
 			//sty.executeUpdate();
 			//sty.executeUpdate();
@@ -536,7 +602,7 @@ public class Login {
                 .getExternalContext()
                 .getSessionMap().get("userid"));
 		
-		String sql = "select * from purchase where uid ='" + uid + "' ";
+		String sql = "select * from purchase where uid ='" + uid + "' and pors=0 and sell=0";
 		PreparedStatement st = con.prepareStatement(sql);
 		
 		
@@ -665,6 +731,114 @@ public class Login {
 		return reqmanager;
 	}
 
+	public List<StockApiBean> getSoldstock() throws SQLException {
+		soldstock.clear();
+		
+		Connection con = null;
+		com.mysql.jdbc.jdbc2.optional.MysqlDataSource ds = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
+		ds.setServerName(System.getenv("ICSI518_SERVER"));
+		ds.setPortNumber(Integer.parseInt(System.getenv("ICSI518_PORT")));
+		ds.setDatabaseName(System.getenv("ICSI518_DB").toString());
+		ds.setUser(System.getenv("ICSI518_USER").toString());
+		ds.setPassword(System.getenv("ICSI518_PASSWORD").toString());
+		con = ds.getConnection();
+		Integer uid = (Integer) ( FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap().get("userid"));
+		
+		String sql = "select * from sell where userid ='" + uid + "'";
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		
+		
+		
+		soldstock.clear();
+		ResultSet rs=st.executeQuery(sql);
+		
+		while(rs.next())
+		{
+			
+			StockApiBean stoc=new StockApiBean();
+			stoc.setPid(rs.getInt("id"));
+			stoc.setUseridentity(rs.getInt("userid"));
+			stoc.setAmt(rs.getDouble("bought_price"));
+			stoc.setPrice(rs.getDouble("sold_price"));
+			stoc.setQty(rs.getInt("qty"));
+			stoc.setSymbol(rs.getString("stock_symbol"));
+			stoc.setProfit(rs.getDouble("profit"));
+			
+			soldstock.add(stoc);
+			
+			
+			//System.out.println(rs.getDouble("amt")+" " +rs.getDouble("price")+""+rs.getString("id"));
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+		
+		
+		
+		con.close();
+		st.close();
+		
+		return soldstock;
+	}
+	
+	public String managersell() throws SQLException 
+	{
+		
+		Connection con = null;
+		try {
+			System.out.println("entered");
+
+		com.mysql.jdbc.jdbc2.optional.MysqlDataSource ds = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
+		ds.setServerName(System.getenv("ICSI518_SERVER"));
+		ds.setPortNumber(Integer.parseInt(System.getenv("ICSI518_PORT")));
+		ds.setDatabaseName(System.getenv("ICSI518_DB").toString());
+		ds.setUser(System.getenv("ICSI518_USER").toString());
+		ds.setPassword(System.getenv("ICSI518_PASSWORD").toString());
+		
+	
+		
+		con = ds.getConnection();
+		System.out.println(pid);
+		String up="Update purchase set sell=1 where id='"+pid +"'";
+		PreparedStatement st = con.prepareStatement(up);
+		st.executeUpdate();
+//		String sql1 = "select managerid from reg where userid='"+ uid+"'";
+//		PreparedStatement st = con.prepareStatement(sql1);
+//		Integer mid=0;;
+//		System.out.println("1");
+//
+//		ResultSet rs = st.executeQuery();
+//		while(rs.next())
+//		{
+//			mid=rs.getInt("managerid");
+//		}
+//		System.out.println(mid);
+//
+//		String sql2 = "INSERT INTO request (managerid, userid, amount) values ('"+ mid +"','"+ uid +"',?)";
+//		PreparedStatement stx = con.prepareStatement(sql2);
+//		stx.setInt(1, qty);
+//		stx.executeUpdate();
+		System.out.print("requested");
+		
+		return "sucess";
+	}finally {
+		try {
+			if(con!=null)
+				con.close();
+		} catch (SQLException e) {
+
+		}
+		return "sucess";
+	}
+	}
 
 	public void logout() throws IOException {
 //		HttpSession hs=Util.getSession();

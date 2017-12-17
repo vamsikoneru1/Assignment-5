@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </h:form>
-            <h:dataTable value="#{regManager.login}" var= "log" styleClass="order-table"
+            <h:dataTable value="#{regManager.login}" var= "log" styleClass="order-table" border="1"
     			headerClass="order-table-header"
     			rowClasses="order-table-odd-row,order-table-even-row">
 				Welcome #{regManager.firstname} , 
@@ -63,7 +63,7 @@
                             <f:selectItems value="#{stockApiBean.availableIntervals}" />
                         </h:selectOneMenu>
                         <br />
-                        <h:commandButton value="Get Data" action="#{stockApiBean.timeseries}" styleClass="btn btn-success" />
+                        <h:commandButton value="Get Data" action="#{stockApiBean.timeseriesmanager}" styleClass="btn btn-success" />
                     </h:form>
                 </div>
 
