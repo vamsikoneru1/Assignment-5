@@ -928,6 +928,52 @@ public class StockApiBean {
         return;
     }
     
+    public void watchlist() throws MalformedURLException, IOException, SQLException {
+
+        installAllTrustingManager();
+
+        //System.out.println("selectedItem: " + this.selectedSymbol);
+        //System.out.println("selectedInterval: " + this.selectedInterval);
+        String symbol = this.selectedSymbol;
+        String interval = this.selectedInterval;
+        Connection con=null;
+    	com.mysql.jdbc.jdbc2.optional.MysqlDataSource ds = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
+		ds.setServerName("localhost");
+		ds.setPortNumber(3306);
+		ds.setDatabaseName("se_proj");
+		ds.setUser("root");
+		ds.setPassword("prasad");
+		
+		
+		con = ds.getConnection();
+    	
+        //Connection conn = DataConnect.getConnection();
+        Statement statement = con.createStatement();
+        
+        //get userid
+        Integer uid = (Integer) ( FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap().get("userid"));
+        
+        
+        String m="select managerid from reg where userid='"+uid+"'";
+        Statement stf=null;
+		stf=(Statement) con.createStatement();
+		ResultSet fe=stf.executeQuery(m);
+		while(fe.next())
+		{
+			managerid=fe.getInt("managerid");
+			
+		}
+        
+		String wat="insert into watch_list (symbol,managerid,userid) "+"values ('" + symbol + "','" + managerid + "','" + uid + "')";
+		PreparedStatement stman = con.prepareStatement(wat);
+		stman.executeUpdate();
+		
+		stman.close();
+		stf.close();
+    }
+    
 
     public void purchaseStock() {
         System.out.println("Calling function purchaseStock()");

@@ -37,6 +37,7 @@ public class Login {
 	List<StockApiBean> stockrequest= new ArrayList<StockApiBean>();
 	List<RegManager> reqmanager = new ArrayList<RegManager>();
 	List<Login> details =new ArrayList<Login>();
+	List<StockApiBean> watchlist =new ArrayList<StockApiBean>();
 	
 	
 
@@ -839,6 +840,42 @@ public class Login {
 		return "sucess";
 	}
 	}
+	
+	
+
+	public List<StockApiBean> getWatchlist() throws SQLException {
+
+		Connection con = null;
+		
+			System.out.println("entered");
+
+		com.mysql.jdbc.jdbc2.optional.MysqlDataSource ds = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
+		ds.setServerName(System.getenv("ICSI518_SERVER"));
+		ds.setPortNumber(Integer.parseInt(System.getenv("ICSI518_PORT")));
+		ds.setDatabaseName(System.getenv("ICSI518_DB").toString());
+		ds.setUser(System.getenv("ICSI518_USER").toString());
+		ds.setPassword(System.getenv("ICSI518_PASSWORD").toString());
+		
+	
+		
+		con = ds.getConnection();
+		System.out.println(pid);
+		String up="select distinct symbol from watch_list";
+		PreparedStatement st = con.prepareStatement(up);
+		ResultSet x=st.executeQuery();
+		watchlist.clear();
+		while(x.next())
+		{
+			StockApiBean sp=new StockApiBean();
+			sp.setSymbol(x.getString("symbol"));
+			watchlist.add(sp);
+		}
+		
+		
+		return watchlist;
+	}
+
+
 
 	public void logout() throws IOException {
 //		HttpSession hs=Util.getSession();
