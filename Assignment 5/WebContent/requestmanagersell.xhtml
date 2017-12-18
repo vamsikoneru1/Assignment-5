@@ -31,7 +31,45 @@
 	
 				
 				 Welcome #{login.username} , 
+				 <h1> Welcome Below is the details of manager you were assigned </h1>
 				 
+				 <h:dataTable value="#{login.reqmanager}" var="r" border="1">
+				 <h:column>    				
+              
+    				<f:facet name="header" > id</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${r.managerid}"></h:outputText>
+            	</h:column>		
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > first name</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${r.firstname}"></h:outputText>
+            	</h:column>		
+            	
+            	<h:column>    				
+              
+    				<f:facet name="header" > email</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${r.email}"></h:outputText>
+            	</h:column>		
+				
+				<h:column>    				
+              
+    				<f:facet name="header" > fee</f:facet>
+    				
+    			
+                 	
+              	<h:outputText value="${r.fee}"></h:outputText>
+            	</h:column>		
+            	</h:dataTable>
 			
 				<h1>
 				Purchased stocks
@@ -90,6 +128,9 @@
  				
  				<h:form>
 				<h:inputText  value="#{login.pid}"  requiredMessage="Required " styleClass="form-control" class="form-control mb-2 mr-sm-2 mb-sm-0"></h:inputText>
+				<br/><br/>
+				please enter manager id
+				<h:inputText  value="#{login.managerid}"  requiredMessage="Required " styleClass="form-control" class="form-control mb-2 mr-sm-2 mb-sm-0"></h:inputText>
 				<br/><br/>
 			<h:commandButton id="request"  value="Request Manager"    action= "#{login.managersell}"  align="center" class="btn btn-success" ></h:commandButton>
 				

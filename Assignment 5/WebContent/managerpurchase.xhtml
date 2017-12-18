@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
  
@@ -44,7 +45,24 @@
                         </a>
                     </div>
                 </div>
-                
+                 <h:dataTable value="#{regManager.login}" var= "log" styleClass="order-table" border="1"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row">
+				Welcome #{regManager.firstname} , 
+				<h:column>    				
+              
+    				<f:facet name="header" > user id</f:facet> 				
+               			
+              	 #{log.userid}
+            	</h:column>	
+            	
+				<h:column>    				
+              
+    				<f:facet name="header" > Amount</f:facet> 				
+               			
+              	 #{log.qty}
+              	 </h:column>
+            	</h:dataTable>	
                 <div class="row">
                     <!--left col-->
                     

@@ -602,7 +602,7 @@ public class Login {
                 .getExternalContext()
                 .getSessionMap().get("userid"));
 		
-		String sql = "select * from purchase where uid ='" + uid + "' and pors=0 and sell=0";
+		String sql = "select * from purchase where uid ='" + uid + "' and pors=0 and sell=0 ";
 		PreparedStatement st = con.prepareStatement(sql);
 		
 		
@@ -807,7 +807,7 @@ public class Login {
 		
 		con = ds.getConnection();
 		System.out.println(pid);
-		String up="Update purchase set sell=1 where id='"+pid +"'";
+		String up="Update purchase set sell=1,managerid='"+managerid+"' where id='"+pid +"'";
 		PreparedStatement st = con.prepareStatement(up);
 		st.executeUpdate();
 //		String sql1 = "select managerid from reg where userid='"+ uid+"'";

@@ -665,7 +665,7 @@ public List<StockApiBean> getManagerpurchasehistory() throws SQLException {
 //con = ds.getConnection();
 
 
-String sql = "select * from purchase where managerid='"+ mid +"' and pors=1 and sell=0 ";
+String sql = "select * from purchase where managerid='"+ mid +"' and pors=0 and sell=0 ";
 
 //PreparedStatement st = con.prepareStatement(sql);
 Statement stm=null;

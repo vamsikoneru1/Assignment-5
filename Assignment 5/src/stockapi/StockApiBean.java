@@ -465,7 +465,7 @@ public class StockApiBean {
             System.out.println("qty:" + qty);
             System.out.println("amt:" + amt);
             
-            String sql1 = "update  purchase  set pors=1 where id='"+ stockid+"' and qty='"+ qty+ "'";
+            String sql1 = "update  purchase  set sell=1 where id='"+ stockid+"' and qty='"+ qty+ "'";
 			PreparedStatement st = con.prepareStatement(sql1);
 			st.executeUpdate();
 			String acc="select amt from purchase where id='" + stockid + "'" ;
